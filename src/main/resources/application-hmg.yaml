@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: calendarAPI
+
+  datasource:
+    # URL para banco em arquivo com auto-server para evitar locks
+    url: jdbc:h2:mem:calendarDb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password: sa
+
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update # cria/atualiza tabelas automaticamente
+    show-sql: true     # mostra SQL no log (útil para debug)
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console # caminho padrão
+      settings:
+        web-allow-others: true # permite acesso externo se necessário
+
+server:
+  port: 8080
