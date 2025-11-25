@@ -1,3 +1,14 @@
+<div align="center">
+    <h2>Ministerio Atos Calendar API</h2>
+    <P>Api de gerenciamento de eventos do Ministerio Atos</P>
+</div>
+
+## Como rodar
+1. Fork o projeto
+2. Acesse o projeto
+3. Configure as credenciais no application-dev.yml
+4. Run no projeto com mwvn
+
 ## Git Flow
 Esse repositorio utiliza o modelo Git Flow para gerenciamento de branches e versionamento. O Git Flow é uma estratégia de ramificação que facilita o desenvolvimento colaborativo e a entrega contínua de software.
 ### Branches Principais
