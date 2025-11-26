@@ -1,4 +1,4 @@
-package br.org.ministerioatos.calendarAPI;
+package br.org.ministerioatos.calendarAPI.infrastructure;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
