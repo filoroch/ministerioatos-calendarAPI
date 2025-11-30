@@ -1,14 +1,27 @@
 package br.org.ministerioatos.calendarAPI.Evento.DTOs;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
 
 @Builder
+@Schema(description = "Dados de resposta de um evento")
 public record EventoResponseDTO(
+        @Schema(description = "Título do evento", example = "Culto de Familia")
         String titulo,
+
+        @Schema(description = "Descrição do evento")
         String descricao,
-        LocalDate datainicio,
-        LocalDate dataFim
+
+        @Schema(description = "Data e hora de início", example = "2025-11-30T19:00:00")
+        LocalDateTime dataHoraInicio,
+
+        @Schema(description = "Data e hora de fim", example = "2025-11-30T21:00:00")
+        LocalDateTime dataHoraFim,
+
+        @Schema(description = "Lista de subeventos")
+        List<SubEventoResponseDTO> subEventos
 ) {
 }

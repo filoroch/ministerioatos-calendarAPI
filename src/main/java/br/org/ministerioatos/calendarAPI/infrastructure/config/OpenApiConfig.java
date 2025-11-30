@@ -34,7 +34,7 @@ public class OpenApiConfig {
                         .description("Repositório e guia de contribuições")
                         .url("https://github.com/filoroch/ministerioatos-calendarAPI"))
                 .servers(List.of(
-                        new Server().url("http://localhost:8080").description("Local"),
+                        new Server().url("http://localhost:8081").description("Local"),
                         new Server().url("http://localhost:8080").description("HMG")))
                 .tags(List.of(
                         new Tag().name("Evento").description("Gerenciamento de eventos para visualização no frontend do calendario"),
