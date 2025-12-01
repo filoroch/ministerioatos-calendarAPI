@@ -1,4 +1,4 @@
-package br.org.ministerioatos.calendarAPI.Evento.model;
+package br.org.ministerioatos.calendarAPI.module.Evento.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;

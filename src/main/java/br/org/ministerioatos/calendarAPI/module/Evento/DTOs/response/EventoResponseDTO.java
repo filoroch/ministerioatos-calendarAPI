@@ -1,5 +1,6 @@
-package br.org.ministerioatos.calendarAPI.Evento.DTOs;
+package br.org.ministerioatos.calendarAPI.module.Evento.DTOs.response;
 
+import br.org.ministerioatos.calendarAPI.module.Local.model.Local;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 
@@ -22,6 +23,9 @@ public record EventoResponseDTO(
         LocalDateTime dataHoraFim,
 
         @Schema(description = "Lista de subeventos")
-        List<SubEventoResponseDTO> subEventos
+        List<SubEventoResponseDTO> subEventos,
+
+        @Schema(description = "Local do evento", example = "{'rua':'Rua das Flores','numero':123,'complemento':'Sala 101','cidade':'São Paulo','CEP':'01310-100','UF':'SP'}")
+        Local local
 ) {
 }

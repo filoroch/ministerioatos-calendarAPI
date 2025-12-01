@@ -1,12 +1,13 @@
-package br.org.ministerioatos.calendarAPI.Evento.service;
+package br.org.ministerioatos.calendarAPI.module.Evento.service;
 
-import br.org.ministerioatos.calendarAPI.Evento.DTOs.EventoRequestDTO;
-import br.org.ministerioatos.calendarAPI.Evento.DTOs.EventoResponseDTO;
-import br.org.ministerioatos.calendarAPI.Evento.DTOs.SubEventoResponseDTO;
-import br.org.ministerioatos.calendarAPI.Evento.model.Evento;
-import br.org.ministerioatos.calendarAPI.Evento.model.SubEvento;
-import br.org.ministerioatos.calendarAPI.Evento.repository.IEventoRepository;
-import jakarta.transaction.Transactional;
+import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.request.EventoRequestDTO;
+import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.response.EventoResponseDTO;
+import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.response.SubEventoResponseDTO;
+import br.org.ministerioatos.calendarAPI.module.Evento.model.Evento;
+import br.org.ministerioatos.calendarAPI.module.Evento.model.SubEvento;
+import br.org.ministerioatos.calendarAPI.module.Evento.repository.IEventoRepository;
+import br.org.ministerioatos.calendarAPI.module.Local.model.Local;
+import br.org.ministerioatos.calendarAPI.module.Local.service.LocalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +20,9 @@ public class EventoService {
     @Autowired
     private IEventoRepository eventoRepository;
 
+    @Autowired
+    private LocalService localService;
+    
     // TODO: recuperar todos os eventos
     public List<EventoResponseDTO> findAllEvents(){
         return eventoRepository.findAll().stream().map(EventoService::toDTO).toList();
@@ -37,7 +41,8 @@ public class EventoService {
         var descricao = "";
         var dataHoraFim = evento.dataInicio().plusMinutes(30);
         var subEventos = evento.subEventos();
-
+        var local = resolverLocal(evento);
+        
         if (evento.descricao().isPresent()){
             descricao = evento.descricao().get();
         }
@@ -52,6 +57,7 @@ public class EventoService {
                 .descricao(descricao)
                 .dataHoraInicio(evento.dataInicio())
                 .dataHoraFim(dataHoraFim)
+                .local(local)
                 .build();
 
         if (!subEventos.isEmpty()){
@@ -111,6 +117,16 @@ public class EventoService {
         }
     }
 
+    private Local resolverLocal(EventoRequestDTO evento){
+        if (evento.idLocalExistente().isPresent()){
+            return localService.findById(evento.idLocalExistente().get());
+        } else if (evento.local().isPresent()){
+            return localService.createLocalIfNotExists(evento.local().get());
+        } else {
+            throw new RuntimeException("É necessário informar um local para o evento");
+        }
+    }
+
     static EventoResponseDTO toDTO(Evento evento){
         var subEventosDTO = evento.getSubEventos().stream()
                 .map(sub -> new SubEventoResponseDTO(
@@ -125,6 +141,7 @@ public class EventoService {
                 .dataHoraInicio(evento.getDataHoraInicio())
                 .dataHoraFim(evento.getDataHoraFim())
                 .subEventos(subEventosDTO)
+                .local(evento.getLocal())
                 .build();
     }
 }

@@ -1,10 +1,10 @@
-package br.org.ministerioatos.calendarAPI.Evento.model;
+package br.org.ministerioatos.calendarAPI.module.Evento.model;
 
+import br.org.ministerioatos.calendarAPI.module.Local.model.Local;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;

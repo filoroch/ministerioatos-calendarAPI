@@ -1,19 +1,15 @@
-package br.org.ministerioatos.calendarAPI.Evento.controller;
+package br.org.ministerioatos.calendarAPI.module.Evento.controller;
 
-import br.org.ministerioatos.calendarAPI.Evento.DTOs.EventoRequestDTO;
-import br.org.ministerioatos.calendarAPI.Evento.DTOs.EventoResponseDTO;
-import br.org.ministerioatos.calendarAPI.Evento.service.EventoService;
+import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.request.EventoRequestDTO;
+import br.org.ministerioatos.calendarAPI.module.Evento.service.EventoService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/evento")
@@ -24,17 +20,17 @@ public class EventoController {
     EventoService eventoService;
 
     //TODO: Get all events (ainda não paginavel)
-//    @GetMapping()
-//    public ResponseEntity getAllEvents(){
-//        var data = eventoService.findAllEvents();
-//
-//        if (data.isEmpty()){
-//            var responseEmpty = new ApiResponse<List<EventoResponseDTO>>(false, HttpStatus.NO_CONTENT, "Lista de eventos vazia",null);
-//            return ResponseEntity.ok(responseEmpty);
-//        }
-//        var response = new ApiResponse<List<EventoResponseDTO>>(true, HttpStatus.ACCEPTED, "Lista de eventos", data);
-//        return ResponseEntity.ok(response);
-//    }
+    @GetMapping()
+    @Operation(summary = "Obter todos os eventos", description = "Recupera uma lista de todos os eventos cadastrados no sistema")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Lista de eventos recuperada com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
+    })
+    public ResponseEntity getAllEvents(){
+        var data = eventoService.findAllEvents();
+        return ResponseEntity.ok(data);
+    }
+
     //TODO: Create event
     @PostMapping()
     @Operation(summary = "Criar novo evento", description = "Cria um novo evento com ou sem subeventos")

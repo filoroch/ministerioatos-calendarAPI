@@ -1,4 +1,4 @@
-package br.org.ministerioatos.calendarAPI.Evento.DTOs;
+package br.org.ministerioatos.calendarAPI.module.Evento.DTOs.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 

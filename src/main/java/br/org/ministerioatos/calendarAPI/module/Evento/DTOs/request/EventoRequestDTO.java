@@ -1,5 +1,7 @@
-package br.org.ministerioatos.calendarAPI.Evento.DTOs;
+package br.org.ministerioatos.calendarAPI.module.Evento.DTOs.request;
 
+import br.org.ministerioatos.calendarAPI.module.Local.DTO.LocalRequestDTO;
+import br.org.ministerioatos.calendarAPI.module.Local.model.Local;
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import java.time.LocalDateTime;
@@ -24,6 +26,9 @@ public record EventoRequestDTO(
         List<SubEventoRequestDTO> subEventos,
 
         @Schema(description = "ID de um local já cadastrado", example = "1")
-        Optional<Integer> idLocalExistente
+        Optional<Integer> idLocalExistente,
+
+        @Schema(description = "Objeto que representa o local do evento", implementation = LocalRequestDTO.class)
+        Optional<LocalRequestDTO> local
 ) {
 }
