@@ -18,7 +18,8 @@ public class LocalService {
     }
 
     public Local findById(Integer id) {
-        return repository.findById(id).get();
+        return repository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Local não encontrado com ID: " + id));
     }
 
     @Transactional
