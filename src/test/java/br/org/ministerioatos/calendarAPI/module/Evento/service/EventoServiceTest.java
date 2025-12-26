@@ -1,16 +1,13 @@
 package br.org.ministerioatos.calendarAPI.module.Evento.service;
 
 import br.org.ministerioatos.calendarAPI.exceptions.EventAlredyExists;
-import br.org.ministerioatos.calendarAPI.exceptions.EventError;
 import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.request.EventoRequestDTO;
 import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.request.SubEventoRequestDTO;
 import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.response.EventoResponseDTO;
-import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.response.SubEventoResponseDTO;
 import br.org.ministerioatos.calendarAPI.module.Evento.model.Evento;
 import br.org.ministerioatos.calendarAPI.module.Evento.model.SubEvento;
 import br.org.ministerioatos.calendarAPI.module.Evento.repository.IEventoRepository;
 import br.org.ministerioatos.calendarAPI.module.Local.DTO.LocalRequestDTO;
-import br.org.ministerioatos.calendarAPI.module.Local.model.Local;
 import br.org.ministerioatos.calendarAPI.module.Local.service.LocalService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
