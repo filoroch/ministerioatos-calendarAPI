@@ -1,13 +1,14 @@
 package br.org.ministerioatos.calendarAPI.module.Evento.DTOs.request;
 
 import br.org.ministerioatos.calendarAPI.module.Local.DTO.LocalRequestDTO;
-import br.org.ministerioatos.calendarAPI.module.Local.model.Local;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+@Builder
 @Schema(description = "Dados para criar um novo evento")
 public record EventoRequestDTO(
         @Schema(description = "Título do evento", example = "Culto de Familia")
@@ -17,7 +18,7 @@ public record EventoRequestDTO(
         Optional<String> descricao,
 
         @Schema(description = "Data e hora de início do evento", example = "2025-11-30T19:00:00")
-        LocalDateTime dataInicio,
+        Optional<LocalDateTime> dataHoraInicio, ///  passar now() como default na controller se n for informado
 
         @Schema(description = "Data e hora de fim do evento (se não informado, será dataInicio + 30 minutos)", example = "2025-11-30T21:00:00")
         Optional<LocalDateTime> dataFim,

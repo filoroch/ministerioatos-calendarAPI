@@ -1,8 +1,10 @@
 package br.org.ministerioatos.calendarAPI.module.Local.DTO;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
 
+@Builder
 @Schema(description = "Dados para cadastrar um novo local")
 public record LocalRequestDTO(
         @Schema(description = "Nome da rua", example = "Rua das Flores")

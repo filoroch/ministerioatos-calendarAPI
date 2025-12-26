@@ -21,6 +21,18 @@ public class LocalService {
         return repository.findById(id).get();
     }
 
+    public static Local toLocalModel(LocalRequestDTO dto) {
+        return Local.builder()
+                .rua(dto.rua())
+                .numero(dto.numero())
+                .complemento(dto.complemento())
+                .cidade(dto.cidade())
+                .bairro(dto.bairro())
+                .CEP(dto.CEP())
+                .UF(dto.UF())
+                .build();
+    }
+
     @Transactional
     public Local createLocalIfNotExists(LocalRequestDTO local) {
 

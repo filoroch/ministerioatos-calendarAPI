@@ -1,5 +1,6 @@
 package br.org.ministerioatos.calendarAPI.module.Evento.service;
 
+import br.org.ministerioatos.calendarAPI.exceptions.EventAlredyExists;
 import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.request.EventoRequestDTO;
 import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.response.EventoResponseDTO;
 import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.response.SubEventoResponseDTO;
@@ -11,6 +12,7 @@ import br.org.ministerioatos.calendarAPI.module.Local.service.LocalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -37,9 +39,18 @@ public class EventoService {
     // TODO: criar evento
     public EventoResponseDTO createEvent(EventoRequestDTO evento){
 
+        var dataHoraInicio = evento.dataHoraInicio().isEmpty() ? LocalDateTime.now() : evento.dataHoraInicio().get();
+
+        var events = eventoRepository.findByTituloAndDataHoraInicio(
+                evento.titulo(), dataHoraInicio);
+
+        if (!events.isEmpty()){
+            throw new EventAlredyExists();
+        }
+
         // Definindo valores para os campos nullable
         var descricao = "";
-        var dataHoraFim = evento.dataInicio().plusMinutes(30);
+        var dataHoraFim = dataHoraInicio.plusMinutes(30);
         var subEventos = evento.subEventos();
         var local = resolverLocal(evento);
         
@@ -55,7 +66,7 @@ public class EventoService {
         var newEvent = Evento.builder()
                 .titulo(evento.titulo())
                 .descricao(descricao)
-                .dataHoraInicio(evento.dataInicio())
+                .dataHoraInicio(dataHoraInicio)
                 .dataHoraFim(dataHoraFim)
                 .local(local)
                 .build();
