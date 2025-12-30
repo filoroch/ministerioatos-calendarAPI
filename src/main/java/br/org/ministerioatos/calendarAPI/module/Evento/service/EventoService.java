@@ -3,6 +3,7 @@ package br.org.ministerioatos.calendarAPI.module.Evento.service;
 import br.org.ministerioatos.calendarAPI.exceptions.BusinessError;
 import br.org.ministerioatos.calendarAPI.exceptions.evento.EventAlredyExists;
 import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.request.EventoRequestDTO;
+import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.request.SubEventoRequestDTO;
 import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.response.EventoResponseDTO;
 import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.response.SubEventoResponseDTO;
 import br.org.ministerioatos.calendarAPI.module.Evento.model.Evento;
@@ -40,29 +41,14 @@ public class EventoService {
     // TODO: criar evento
     public EventoResponseDTO createEvent(EventoRequestDTO evento){
 
-        var dataHoraInicio = evento.dataHoraInicio().isEmpty() ? LocalDateTime.now() : evento.dataHoraInicio().get();
+        /// Determinando valores iniciais
+        var dataHoraInicio = evento.dataHoraInicio().orElse(LocalDateTime.now());
+        var descricao = evento.descricao().orElse("");
+        var dataHoraFim = evento.dataFim().orElseGet(() -> dataHoraInicio.plusMinutes(30));
 
-        var events = eventoRepository.findByTituloAndDataHoraInicio(
-                evento.titulo(), dataHoraInicio);
+        eventIsExists(evento.titulo(), dataHoraInicio);
 
-        if (!events.isEmpty()){
-            throw new EventAlredyExists();
-        }
-
-        // Definindo valores para os campos nullable
-        var descricao = "";
-        var dataHoraFim = dataHoraInicio.plusMinutes(30);
-        var subEventos = evento.subEventos();
         var local = resolverLocal(evento);
-        
-        if (evento.descricao().isPresent()){
-            descricao = evento.descricao().get();
-        }
-
-        // Caso não seja fornecida uma data de fim, definir a data de início como data de fim + 30 minutos
-        if (evento.dataFim().isPresent()){
-            dataHoraFim = evento.dataFim().get();
-        }
 
         var newEvent = Evento.builder()
                 .titulo(evento.titulo())
@@ -72,20 +58,8 @@ public class EventoService {
                 .local(local)
                 .build();
 
-        if (!subEventos.isEmpty()){
-            var subEventosList = subEventos.stream().map(subEvento -> {
-                var novoSubEvento = new SubEvento();
-                novoSubEvento.setTitulo(subEvento.titulo());
-                novoSubEvento.setDataInicio(subEvento.dataInicio());
-                novoSubEvento.setEvento(newEvent);
-
-                return novoSubEvento;
-            }).collect(Collectors.toList());
-
-            newEvent.setSubEventos(subEventosList);
-        } else {
-            newEvent.setSubEventos(List.of());
-        }
+        var subEventos = setSubEvents(evento.subEventos(), newEvent);
+        newEvent.setSubEventos(subEventos);
 
         var saveEvent = eventoRepository.save(newEvent);
         return toDTO(saveEvent);
@@ -126,6 +100,36 @@ public class EventoService {
             return eventIsDeleted = true;
         } catch (RuntimeException e) {
             throw new RuntimeException("Erro ao deletar o evento");
+        }
+    }
+
+    /// Metodos auxiliares
+
+    private SubEvento createSubEvent(
+            SubEventoRequestDTO dto,
+            Evento parent
+    ){
+        var subEvento = new SubEvento();
+        subEvento.setEvento(parent);
+        subEvento.setTitulo(dto.titulo());
+        subEvento.setDataInicio(dto.dataInicio());
+        return subEvento;
+    }
+
+    private List<SubEvento> setSubEvents(
+            List<SubEventoRequestDTO> dtos,
+            Evento parent
+    ){
+        return dtos.stream()
+                .map(dto -> createSubEvent(dto, parent))
+                .collect(Collectors.toList());
+    }
+
+    private void eventIsExists (String titulo, LocalDateTime dataHoraInicio){
+        var events = eventoRepository.findByTituloAndDataHoraInicio(titulo, dataHoraInicio);
+
+        if (!events.isEmpty()){
+            throw new EventAlredyExists();
         }
     }
 

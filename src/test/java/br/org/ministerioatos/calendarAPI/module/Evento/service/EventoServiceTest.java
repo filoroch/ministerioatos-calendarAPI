@@ -221,7 +221,9 @@ class EventoServiceTest {
             /// Evento a ser adicionado
             var newEvent = EventoRequestDTO.builder()
                     .titulo("Culto de Familia")
+                    .descricao(Optional.empty())
                     .dataHoraInicio(Optional.of(LocalDateTime.of(2025, 11, 30, 19, 0)))
+                    .dataFim(Optional.empty())
                     .subEventos(new ArrayList<SubEventoRequestDTO>())
                     .local(Optional.of(local))
                     .build();
