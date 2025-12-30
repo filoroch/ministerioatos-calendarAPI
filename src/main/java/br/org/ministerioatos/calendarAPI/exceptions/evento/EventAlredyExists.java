@@ -1,4 +1,4 @@
-package br.org.ministerioatos.calendarAPI.exceptions;
+package br.org.ministerioatos.calendarAPI.exceptions.evento;
 
 public class EventAlredyExists extends EventError {
 

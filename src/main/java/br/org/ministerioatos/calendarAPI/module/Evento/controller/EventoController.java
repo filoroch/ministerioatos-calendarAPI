@@ -37,6 +37,7 @@ public class EventoController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Evento criado com sucesso"),
             @ApiResponse(responseCode = "400", description = "Dados inválidos fornecidos"),
+            @ApiResponse(responseCode = "409", description = "Conflito ao criar evento (ex: evento já existe)"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
     public ResponseEntity createEvent(@RequestBody EventoRequestDTO eventoRequestDTO){

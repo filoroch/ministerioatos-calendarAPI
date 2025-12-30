@@ -1,6 +1,7 @@
 package br.org.ministerioatos.calendarAPI.module.Evento.service;
 
-import br.org.ministerioatos.calendarAPI.exceptions.EventAlredyExists;
+import br.org.ministerioatos.calendarAPI.exceptions.BusinessError;
+import br.org.ministerioatos.calendarAPI.exceptions.evento.EventAlredyExists;
 import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.request.EventoRequestDTO;
 import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.response.EventoResponseDTO;
 import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.response.SubEventoResponseDTO;
@@ -134,7 +135,7 @@ public class EventoService {
         } else if (evento.local().isPresent()){
             return localService.createLocalIfNotExists(evento.local().get());
         } else {
-            throw new RuntimeException("É necessário informar um local para o evento");
+            throw new IllegalArgumentException("É necessário informar um local para o evento");
         }
     }
 
