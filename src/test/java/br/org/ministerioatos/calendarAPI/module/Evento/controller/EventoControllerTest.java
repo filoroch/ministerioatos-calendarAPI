@@ -18,6 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +49,8 @@ class EventoControllerTest {
     class getAllEventsEndpoint{
 
         List<EventoResponseDTO> events;
+        LocalDateTime dataHoraInicio = now();
+        LocalDateTime dataHoraFim = dataHoraInicio.plusHours(1);
 
         @BeforeEach
         void setup() {
@@ -55,15 +58,15 @@ class EventoControllerTest {
                     EventoResponseDTO.builder()
                             .titulo("Evento 1")
                             .descricao("Descrição do Evento 1")
-                            .dataHoraInicio(now())
-                            .dataHoraFim(now().plusHours(1))
+                            .dataHoraInicio(dataHoraInicio)
+                            .dataHoraFim(dataHoraFim)
                             .subEventos(List.of())
                             .build(),
                     EventoResponseDTO.builder()
                             .titulo("Evento 2")
                             .descricao("Descrição do Evento 2")
-                            .dataHoraInicio(now().plusDays(1))
-                            .dataHoraFim(now().plusDays(1).plusHours(2))
+                            .dataHoraInicio(dataHoraInicio.plusDays(1))
+                            .dataHoraFim(dataHoraFim.plusDays(1).plusHours(2))
                             .subEventos(List.of())
                             .build()
             );
@@ -75,20 +78,61 @@ class EventoControllerTest {
         @DisplayName("200 - Deve retornar eventos filtrados por título")
         void shouldReturnEventsFilteredByTitle() throws Exception {
 
-            when(service.findByTitle("Reunião de Teste"))
+            when(service.findByFilters("Reunião de Teste", null, null))
                     .thenReturn(events);
 
             mockMvc.perform(get("/api/evento")
-                    .param("titulo", "Reunião de Teste"))
+                    .param("title", "Reunião de Teste"))
                     .andExpect(status().isOk());
 
-            verify(service, times(1)).findByTitle("Reunião de Teste");
+            verify(service, times(1)).findByFilters(
+                    "Reunião de Teste",
+                    null,
+                    null);
 
         }
-        /// Verificar filtro por data
+        /// TODO: Verificar filtro por data
+        @Test
+        @DisplayName("200 - Deve retornar eventos filtrados por data")
+        void shouldReturnEventsFilteredByDate() throws Exception {
+            when(service.findByFilters(null, dataHoraInicio, null))
+                    .thenReturn(events.stream()
+                            .filter(event -> event.dataHoraInicio().toLocalDate().isEqual(dataHoraInicio.toLocalDate()))
+                            .toList());;
 
+            mockMvc.perform(get("/api/evento")
+                            .param("startDateTimeRange", dataHoraInicio.toString()))
+                    .andExpect(status().isOk());
+
+            verify(service, times(1)).findByFilters(null, dataHoraInicio, null);
+        }
+        @Test
+        @DisplayName("200 - Deve retornar eventos filtrados por data de início e fim")
+        void shouldReturnEventsFilteredByStartAndEndDate() throws Exception {
+            when(service.findByFilters("", dataHoraInicio, dataHoraFim
+            )).thenReturn(events);
+
+            mockMvc.perform(get("/api/evento")
+                            .param("startDateTimeRange", dataHoraInicio.toString())
+                            .param("endDateTimeRange", dataHoraFim.toString()))
+                    .andExpect(status().isOk());
+
+            verify(service, times(1)).findByFilters(null, dataHoraInicio, dataHoraFim);
+        }
+
+        @Test
+        @DisplayName("200 - Deve retornar todos os eventos quando nenhum filtro for aplicado ")
+        void shouldReturnAllEventsWhenNoFilterApplied() throws Exception {
+            when(service.findAllEvents()).thenReturn(events);
+
+            mockMvc.perform(get("/api/evento"))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(content().json(mapper.writeValueAsString(events)));
+
+            verify(service, times(1)).findAllEvents();
+        }
     }
-
 
     @Nested
     @DisplayName("Create Event Endpoint")

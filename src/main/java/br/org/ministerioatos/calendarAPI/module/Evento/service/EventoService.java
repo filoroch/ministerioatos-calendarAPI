@@ -8,6 +8,7 @@ import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.response.EventoRespo
 import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.response.SubEventoResponseDTO;
 import br.org.ministerioatos.calendarAPI.module.Evento.model.Evento;
 import br.org.ministerioatos.calendarAPI.module.Evento.model.SubEvento;
+import br.org.ministerioatos.calendarAPI.module.Evento.repository.EventoSpecification;
 import br.org.ministerioatos.calendarAPI.module.Evento.repository.IEventoRepository;
 import br.org.ministerioatos.calendarAPI.module.Local.model.Local;
 import br.org.ministerioatos.calendarAPI.module.Local.service.LocalService;
@@ -26,19 +27,30 @@ public class EventoService {
 
     @Autowired
     private LocalService localService;
-    
-    // TODO: recuperar todos os eventos
+
     public List<EventoResponseDTO> findAllEvents(){
-        return eventoRepository.findAll().stream().map(EventoService::toDTO).toList();
+        return eventoRepository.findAll().stream()
+                .map(EventoService::toDTO)
+                .toList();
     }
+
+    public List<EventoResponseDTO> findByFilters(String title, LocalDateTime start, LocalDateTime end){
+        var events = eventoRepository.findAll(
+                EventoSpecification.containsTitle(title)
+                        .and(EventoSpecification.isDateInRange(start, end))
+        );
+
+        return events.stream()
+                .map(EventoService::toDTO)
+                .collect(Collectors.toList());
+    }
+
     // TODO: recuperar evento por id
     public EventoResponseDTO findById(Integer idEvento){
         var event =  eventoRepository.findById(idEvento).orElseThrow(() -> new RuntimeException("Erro"));
         return toDTO(event);
     }
-    // TODO: recuperar evento por data usando specification ou query
-    // TODO: recuperar evento por titulo
-    // TODO: criar evento
+
     public EventoResponseDTO createEvent(EventoRequestDTO evento){
 
         /// Determinando valores iniciais
@@ -97,7 +109,7 @@ public class EventoService {
 
         try {
             eventoRepository.delete(targetEventWithAnDelete);
-            return eventIsDeleted = true;
+            return eventIsDeleted = true ;
         } catch (RuntimeException e) {
             throw new RuntimeException("Erro ao deletar o evento");
         }
@@ -160,4 +172,6 @@ public class EventoService {
                 .local(evento.getLocal())
                 .build();
     }
+
+
 }

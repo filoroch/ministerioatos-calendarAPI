@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
+
 @RestController
 @RequestMapping("/api/evento")
 @Tag(name = "Evento", description = "Gerenciamento de eventos para visualização no frontend do calendario")
@@ -26,12 +28,24 @@ public class EventoController {
             @ApiResponse(responseCode = "200", description = "Lista de eventos recuperada com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
-    public ResponseEntity getAllEvents(){
+    public ResponseEntity getEvents(
+            @RequestParam(name = "title", required = false) String title,
+            @RequestParam(name = "startDateTimeRange", required = false) String startDateTimeRange,
+            @RequestParam(name = "endDateTimeRange", required = false) String endDateTimeRange
+    ){
+        if (title != null && !title.isEmpty() || startDateTimeRange != null || endDateTimeRange != null) {
+            var filteredData = eventoService.findByFilters(
+                    title,
+                    startDateTimeRange != null ? LocalDateTime.parse(startDateTimeRange) : null,
+                    endDateTimeRange != null ? LocalDateTime.parse(endDateTimeRange) : null
+            );
+            return ResponseEntity.ok(filteredData);
+        }
+
         var data = eventoService.findAllEvents();
         return ResponseEntity.ok(data);
     }
 
-    //TODO: Create event
     @PostMapping()
     @Operation(summary = "Criar novo evento", description = "Cria um novo evento com ou sem subeventos")
     @ApiResponses(value = {

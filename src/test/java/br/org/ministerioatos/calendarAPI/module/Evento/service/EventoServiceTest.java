@@ -4,11 +4,14 @@ import br.org.ministerioatos.calendarAPI.exceptions.evento.EventAlredyExists;
 import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.request.EventoRequestDTO;
 import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.request.SubEventoRequestDTO;
 import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.response.EventoResponseDTO;
+import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.response.SubEventoResponseDTO;
 import br.org.ministerioatos.calendarAPI.module.Evento.model.Evento;
 import br.org.ministerioatos.calendarAPI.module.Evento.model.SubEvento;
 import br.org.ministerioatos.calendarAPI.module.Evento.repository.IEventoRepository;
 import br.org.ministerioatos.calendarAPI.module.Local.DTO.LocalRequestDTO;
+import br.org.ministerioatos.calendarAPI.module.Local.model.Local;
 import br.org.ministerioatos.calendarAPI.module.Local.service.LocalService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -17,6 +20,7 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -40,6 +44,65 @@ class EventoServiceTest {
     private LocalService localService;
 
     @Nested
+    @DisplayName("Retornar eventos")
+    class getEventsTest{
+
+        List<Evento> events;
+        LocalDateTime start = LocalDateTime.of(2024, 12, 1, 0, 0);
+        LocalDateTime end = LocalDateTime.of(2024, 12, 31, 23, 59);
+        Local local = new Local(1, "Rua A", 123, "Complemento", "Bairro", "Cidade", "00000-000", "SP");
+
+        @BeforeEach
+        void setup() {
+            events = List.of(
+                    Evento.builder()
+                            .titulo("Evento 1")
+                            .descricao("Descrição do Evento 1")
+                            .dataHoraInicio(start)
+                            .dataHoraFim(end)
+                            .subEventos(new ArrayList<SubEvento>())
+                            .local(local)
+                            .build(),
+
+                    Evento.builder()
+                            .titulo("Evento 2")
+                            .descricao("Descrição do Evento 2")
+                            .dataHoraInicio(start.plusMinutes(30))
+                            .dataHoraFim(end.plusMinutes(60))
+                            .subEventos(new ArrayList<SubEvento>())
+                            .local(local)
+                            .build(),
+
+                    Evento.builder()
+                            .titulo("Evento 3")
+                            .descricao("Descrição do Evento 3")
+                            .dataHoraInicio(start.plusHours(3))
+                            .dataHoraFim(end.plusDays(1))
+                            .subEventos(new ArrayList<SubEvento>())
+                            .local(local)
+                            .build()
+            );
+        }
+
+        @Test
+        @DisplayName("Deve retornar eventos com base nos filtros")
+        void shouldReturnEventsBasedOnFilters() {
+            when(repository.findAll(ArgumentMatchers.any(Specification.class)))
+                    .thenReturn(events);
+
+            List<EventoResponseDTO> result = service.findByFilters("Evento", start, end);
+
+            assertNotNull(result, "Resultado não deve ser nulo");
+            assertEquals(3, result.size(), "Deve retornar 3 eventos");
+            assertInstanceOf(List.class, result, "Deve retornar uma lista");
+            assertInstanceOf(EventoResponseDTO.class, result.getFirst(), "Deve retornar um evento");
+
+            verify(repository, times(1)).findAll(ArgumentMatchers.any(Specification.class));
+            };
+        }
+
+
+    @Nested
     @DisplayName("Criar eventos")
     class createEventTests {
 
@@ -47,7 +110,7 @@ class EventoServiceTest {
         @DisplayName("Deve criar um evento com todos os parametros")
         void shouldCreateEventWithAllParameters() {
 
-            List subevents = new ArrayList<SubEventoRequestDTO>();
+            List<SubEventoRequestDTO> subevents = new ArrayList<>();
 
             var local = LocalRequestDTO.builder()
                     .rua("Rua das Flores")
@@ -78,7 +141,7 @@ class EventoServiceTest {
                     .dataHoraInicio(LocalDateTime.of(2025, 11, 30, 19, 0))
                     .dataHoraFim(LocalDateTime.of(2025, 11, 30, 21, 0))
                     .subEventos(new ArrayList<SubEvento>())
-                    .local(localService.toLocalModel(local))
+                    .local(toLocalModel(local))
                     .build();
 
             when(repository.save(ArgumentMatchers.any(Evento.class))).thenReturn(event);
@@ -99,7 +162,7 @@ class EventoServiceTest {
         @DisplayName("Deve usar a data e hora atual caso não seja passado uma data de inicio e inferir 30 minutos na data fim")
         void shouldUseCurrentDateTimeIfStartDateNotProvidedAndInfer30MinutesToEndDate() {
 
-            List subevents = new ArrayList<SubEventoRequestDTO>();
+            List<SubEventoRequestDTO> subevents = new ArrayList<>();
 
             var local = LocalRequestDTO.builder()
                     .rua("Rua das Flores")
@@ -130,7 +193,7 @@ class EventoServiceTest {
                     .dataHoraInicio(LocalDateTime.now())
                     .dataHoraFim(LocalDateTime.now().plusMinutes(30))
                     .subEventos(new ArrayList<SubEvento>())
-                    .local(localService.toLocalModel(local))
+                    .local(toLocalModel(local))
                     .build();
 
             when(repository.save(ArgumentMatchers.any(Evento.class))).thenReturn(event);
@@ -241,6 +304,5 @@ class EventoServiceTest {
 
             verify(repository, never()).save(ArgumentMatchers.any(Evento.class));
         }
-
     }
 }
