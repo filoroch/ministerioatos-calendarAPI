@@ -21,7 +21,7 @@ public class EventoController {
     @Autowired
     EventoService eventoService;
 
-    //TODO: Get all events (ainda não paginavel)
+    //TODO: Adicionar paginação
     @GetMapping()
     @Operation(summary = "Obter todos os eventos", description = "Recupera uma lista de todos os eventos cadastrados no sistema")
     @ApiResponses(value = {

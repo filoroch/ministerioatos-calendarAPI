@@ -91,7 +91,7 @@ class EventoControllerTest {
                     null);
 
         }
-        /// TODO: Verificar filtro por data
+
         @Test
         @DisplayName("200 - Deve retornar eventos filtrados por data")
         void shouldReturnEventsFilteredByDate() throws Exception {
