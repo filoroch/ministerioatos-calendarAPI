@@ -13,6 +13,9 @@ import br.org.ministerioatos.calendarAPI.module.Evento.repository.IEventoReposit
 import br.org.ministerioatos.calendarAPI.module.Local.model.Local;
 import br.org.ministerioatos.calendarAPI.module.Local.service.LocalService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -28,21 +31,40 @@ public class EventoService {
     @Autowired
     private LocalService localService;
 
-    public List<EventoResponseDTO> findAllEvents(){
-        return eventoRepository.findAll().stream()
-                .map(EventoService::toDTO)
-                .toList();
-    }
-
-    public List<EventoResponseDTO> findByFilters(String title, LocalDateTime start, LocalDateTime end){
-        var events = eventoRepository.findAll(
-                EventoSpecification.containsTitle(title)
-                        .and(EventoSpecification.isDateInRange(start, end))
+    public Page<EventoResponseDTO> findAllEvents(Integer pageNumber, Integer pageSize, String sortBy, String sortDir){
+        PageRequest page = PageRequest.of(
+                pageNumber,
+                pageSize,
+                Sort.by(Sort.Direction.fromString(sortDir), sortBy)
         );
 
-        return events.stream()
-                .map(EventoService::toDTO)
-                .collect(Collectors.toList());
+        Page<Evento> eventsPage = eventoRepository.findAll(page);
+        var results = eventsPage.map(EventoService::toDTO);
+
+        return results;
+    }
+
+    public Page<EventoResponseDTO> findByFilters(
+            String title,
+            LocalDateTime start,
+            LocalDateTime end,
+            Integer pageNumber,
+            Integer pageSize,
+            String sortBy,
+            String sortDir
+    ){
+        var spec = EventoSpecification.containsTitle(title)
+                .and(EventoSpecification.isDateInRange(start, end));
+
+        var page = PageRequest.of(
+                pageNumber,
+                pageSize,
+                Sort.by(Sort.Direction.fromString(sortDir), sortBy)
+        );
+
+        var events = eventoRepository.findAll(spec, page);
+
+        return events.map(EventoService::toDTO);
     }
 
     // TODO: recuperar evento por id

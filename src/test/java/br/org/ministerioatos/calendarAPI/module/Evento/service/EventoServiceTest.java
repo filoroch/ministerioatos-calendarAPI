@@ -20,6 +20,8 @@ import org.mockito.ArgumentMatchers;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDateTime;
@@ -51,6 +53,10 @@ class EventoServiceTest {
         LocalDateTime start = LocalDateTime.of(2024, 12, 1, 0, 0);
         LocalDateTime end = LocalDateTime.of(2024, 12, 31, 23, 59);
         Local local = new Local(1, "Rua A", 123, "Complemento", "Bairro", "Cidade", "00000-000", "SP");
+        Integer page = 0;
+        Integer size = 30;
+        String sortBy = "dataHoraInicio";
+        String sortDir = "asc";
 
         @BeforeEach
         void setup() {
@@ -90,7 +96,7 @@ class EventoServiceTest {
             when(repository.findAll(ArgumentMatchers.any(Specification.class)))
                     .thenReturn(events);
 
-            List<EventoResponseDTO> result = service.findByFilters("Evento", start, end);
+            List<EventoResponseDTO> result = service.findByFilters("Evento", start, end, page, size, sortBy, sortDir).getContent();
 
             assertNotNull(result, "Resultado não deve ser nulo");
             assertEquals(3, result.size(), "Deve retornar 3 eventos");

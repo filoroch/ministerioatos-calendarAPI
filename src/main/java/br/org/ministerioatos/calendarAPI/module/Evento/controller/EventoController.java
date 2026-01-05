@@ -31,18 +31,26 @@ public class EventoController {
     public ResponseEntity getEvents(
             @RequestParam(name = "title", required = false) String title,
             @RequestParam(name = "startDateTimeRange", required = false) String startDateTimeRange,
-            @RequestParam(name = "endDateTimeRange", required = false) String endDateTimeRange
+            @RequestParam(name = "endDateTimeRange", required = false) String endDateTimeRange,
+            @RequestParam(name = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(name = "size", required = false, defaultValue = "30") Integer size,
+            @RequestParam(name = "sortBy", required = false, defaultValue = "dataHoraInicio") String sortBy,
+            @RequestParam(name = "sortDir", required = false, defaultValue = "asc") String sortDir
     ){
         if (title != null && !title.isEmpty() || startDateTimeRange != null || endDateTimeRange != null) {
             var filteredData = eventoService.findByFilters(
                     title,
                     startDateTimeRange != null ? LocalDateTime.parse(startDateTimeRange) : null,
-                    endDateTimeRange != null ? LocalDateTime.parse(endDateTimeRange) : null
+                    endDateTimeRange != null ? LocalDateTime.parse(endDateTimeRange) : null,
+                    page,
+                    size,
+                    sortBy,
+                    sortDir
             );
             return ResponseEntity.ok(filteredData);
         }
 
-        var data = eventoService.findAllEvents();
+        var data = eventoService.findAllEvents(page, size, sortBy, sortDir);
         return ResponseEntity.ok(data);
     }
 

@@ -14,6 +14,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -51,6 +53,10 @@ class EventoControllerTest {
         List<EventoResponseDTO> events;
         LocalDateTime dataHoraInicio = now();
         LocalDateTime dataHoraFim = dataHoraInicio.plusHours(1);
+        Integer page = 0;
+        Integer size = 30;
+        String sortBy = "dataHoraInicio";
+        String sortDir = "asc";
 
         @BeforeEach
         void setup() {
@@ -72,14 +78,14 @@ class EventoControllerTest {
             );
         }
 
-        /// Verificar o endpoint /api/evento com seus query parameters
-        /// Verificar filtro por titulo
         @Test
         @DisplayName("200 - Deve retornar eventos filtrados por título")
         void shouldReturnEventsFilteredByTitle() throws Exception {
 
-            when(service.findByFilters("Reunião de Teste", null, null))
-                    .thenReturn(events);
+            Page<EventoResponseDTO> pagedEvents = new PageImpl<>(events);
+
+            when(service.findByFilters("Reunião de Teste", null, null, page, size, sortBy, sortDir))
+                    .thenReturn(pagedEvents);
 
             mockMvc.perform(get("/api/evento")
                     .param("title", "Reunião de Teste"))
@@ -88,49 +94,62 @@ class EventoControllerTest {
             verify(service, times(1)).findByFilters(
                     "Reunião de Teste",
                     null,
-                    null);
+                    null,
+                    page,
+                    size,
+                    sortBy,
+                    sortDir
+            );
 
         }
 
         @Test
         @DisplayName("200 - Deve retornar eventos filtrados por data")
         void shouldReturnEventsFilteredByDate() throws Exception {
-            when(service.findByFilters(null, dataHoraInicio, null))
-                    .thenReturn(events.stream()
-                            .filter(event -> event.dataHoraInicio().toLocalDate().isEqual(dataHoraInicio.toLocalDate()))
-                            .toList());;
+
+            Page<EventoResponseDTO> pagedEvents = new PageImpl<>(events);
+
+            when(service.findByFilters(null, dataHoraInicio, null, page, size, sortBy, sortDir))
+                    .thenReturn(pagedEvents);
 
             mockMvc.perform(get("/api/evento")
                             .param("startDateTimeRange", dataHoraInicio.toString()))
-                    .andExpect(status().isOk());
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                    .andExpect(content().json(mapper.writeValueAsString(pagedEvents)));
 
-            verify(service, times(1)).findByFilters(null, dataHoraInicio, null);
+            verify(service, times(1)).findByFilters(null, dataHoraInicio, null, page, size, sortBy, sortDir);
         }
         @Test
         @DisplayName("200 - Deve retornar eventos filtrados por data de início e fim")
         void shouldReturnEventsFilteredByStartAndEndDate() throws Exception {
-            when(service.findByFilters("", dataHoraInicio, dataHoraFim
-            )).thenReturn(events);
+
+            Page<EventoResponseDTO> pagedEvents = new PageImpl<>(events);
+
+            when(service.findByFilters("", dataHoraInicio, dataHoraFim, page, size, sortBy, sortDir)).thenReturn(pagedEvents);
 
             mockMvc.perform(get("/api/evento")
                             .param("startDateTimeRange", dataHoraInicio.toString())
                             .param("endDateTimeRange", dataHoraFim.toString()))
                     .andExpect(status().isOk());
 
-            verify(service, times(1)).findByFilters(null, dataHoraInicio, dataHoraFim);
+            verify(service, times(1)).findByFilters(null, dataHoraInicio, dataHoraFim, page, size, sortBy, sortDir);
         }
 
         @Test
         @DisplayName("200 - Deve retornar todos os eventos quando nenhum filtro for aplicado ")
         void shouldReturnAllEventsWhenNoFilterApplied() throws Exception {
-            when(service.findAllEvents()).thenReturn(events);
+
+            Page<EventoResponseDTO> pagedEvents = new PageImpl<>(events);
+
+            when(service.findAllEvents(page, size, sortBy, sortDir)).thenReturn(pagedEvents);
 
             mockMvc.perform(get("/api/evento"))
                     .andExpect(status().isOk())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(content().json(mapper.writeValueAsString(events)));
+                    .andExpect(content().json(mapper.writeValueAsString(pagedEvents)));
 
-            verify(service, times(1)).findAllEvents();
+            verify(service, times(1)).findAllEvents(page, size, sortBy, sortDir);
         }
     }
 
