@@ -1,8 +1,7 @@
 package br.org.ministerioatos.calendarAPI.infrastructure;
 
-import br.org.ministerioatos.calendarAPI.exceptions.BusinessError;
-import br.org.ministerioatos.calendarAPI.exceptions.evento.EventAlredyExists;
-import br.org.ministerioatos.calendarAPI.exceptions.local.LocalAlredyExists;
+import br.org.ministerioatos.calendarAPI.domain.exceptions.BusinessError;
+import br.org.ministerioatos.calendarAPI.domain.exceptions.evento.EventAlredyExists;
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -11,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler({EventAlredyExists.class, LocalAlredyExists.class})
+    @ExceptionHandler({EventAlredyExists.class})
     public ProblemDetail handleConflictBusinessErrors(BusinessError ex) {
         ProblemDetail problem = ProblemDetail.forStatus(409);
         problem.setTitle(ex.getClass().getSimpleName());
