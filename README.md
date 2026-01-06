@@ -10,9 +10,9 @@
 4. Run no projeto com mwvn
 5. Configure o H2 em memoria (modo dev)
     - Altere o JDBC URL para o mesmo do application-dev.yaml
-
-    > [!WARNING]
-    > Tenha ciencia que, o H2 é um banco estritamente para testes e desenvolvimento. Usa-lo em produção é por sua conta e risco
+      
+> [!WARNING]
+> Tenha ciencia que, o H2 é um banco estritamente para testes e desenvolvimento. Usa-lo em produção é por sua conta e risco
 
 ## Git Flow
 Esse repositorio utiliza o modelo Git Flow para gerenciamento de branches e versionamento. O Git Flow é uma estratégia de ramificação que facilita o desenvolvimento colaborativo e a entrega contínua de software.
