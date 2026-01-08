@@ -1,6 +1,6 @@
 //package br.org.ministerioatos.calendarAPI.module.Evento.service;
 //
-//import br.org.ministerioatos.calendarAPI.EventoService;
+//import br.org.ministerioatos.calendarAPI.application.service.EventoService;
 //import br.org.ministerioatos.calendarAPI.domain.exceptions.evento.EventAlredyExists;
 //import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.request.EventoRequestDTO;
 //import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.request.SubEventoRequestDTO;

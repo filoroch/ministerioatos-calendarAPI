@@ -2,12 +2,17 @@ package br.org.ministerioatos.calendarAPI.infrastructure.data.models;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
 @Table(name = "events")
+@NoArgsConstructor
+@AllArgsConstructor
 public class EventDataJpa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

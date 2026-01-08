@@ -1,15 +1,15 @@
 package br.org.ministerioatos.calendarAPI.application.usecase;
 
-import br.org.ministerioatos.calendarAPI.application.input.FindEventInput;
+import br.org.ministerioatos.calendarAPI.application.DTO.event.FindEventInput;
 import br.org.ministerioatos.calendarAPI.application.mappers.EventoDataMapper;
-import br.org.ministerioatos.calendarAPI.application.output.EventOutput;
-import br.org.ministerioatos.calendarAPI.infrastructure.data.repository.EventoSpecification;
+import br.org.ministerioatos.calendarAPI.application.DTO.event.EventOutput;
+import br.org.ministerioatos.calendarAPI.infrastructure.data.Specification.EventoSpecification;
 import br.org.ministerioatos.calendarAPI.infrastructure.data.repository.IEventoRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import static br.org.ministerioatos.calendarAPI.infrastructure.data.repository.EventoSpecification.isDateInRange;
+import static br.org.ministerioatos.calendarAPI.infrastructure.data.Specification.EventoSpecification.isDateInRange;
 
 @Service
 public class FindEventUseCase extends BaseEventUseCase{

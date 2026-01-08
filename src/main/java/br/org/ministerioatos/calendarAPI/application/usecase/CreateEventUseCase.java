@@ -1,7 +1,7 @@
 package br.org.ministerioatos.calendarAPI.application.usecase;
-import br.org.ministerioatos.calendarAPI.application.input.CreateEventInput;
+import br.org.ministerioatos.calendarAPI.application.DTO.event.CreateEventInput;
 import br.org.ministerioatos.calendarAPI.application.mappers.EventoDataMapper;
-import br.org.ministerioatos.calendarAPI.application.output.EventOutput;
+import br.org.ministerioatos.calendarAPI.application.DTO.event.EventOutput;
 import br.org.ministerioatos.calendarAPI.domain.exceptions.evento.EventAlredyExists;
 import br.org.ministerioatos.calendarAPI.infrastructure.data.repository.IEventoRepository;
 import org.springframework.stereotype.Service;

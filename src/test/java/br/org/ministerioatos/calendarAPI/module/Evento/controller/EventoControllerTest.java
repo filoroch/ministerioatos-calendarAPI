@@ -1,11 +1,11 @@
 //package br.org.ministerioatos.calendarAPI.module.Evento.controller;
 //
 //import br.org.ministerioatos.calendarAPI.domain.exceptions.evento.EventAlredyExists;
-//import br.org.ministerioatos.calendarAPI.infrastructure.GlobalExceptionHandler;
-//import br.org.ministerioatos.calendarAPI.presentation.controller.EventoController;
+//import br.org.ministerioatos.calendarAPI.infrastructure.exception.GlobalExceptionHandler;
+//import br.org.ministerioatos.calendarAPI.presentation.EventoController;
 //import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.request.EventoRequestDTO;
 //import br.org.ministerioatos.calendarAPI.module.Evento.DTOs.response.EventoResponseDTO;
-//import br.org.ministerioatos.calendarAPI.EventoService;
+//import br.org.ministerioatos.calendarAPI.application.service.EventoService;
 //import br.org.ministerioatos.calendarAPI.module.Local.DTO.LocalRequestDTO;
 //import com.fasterxml.jackson.databind.ObjectMapper;
 //import org.junit.jupiter.api.BeforeEach;

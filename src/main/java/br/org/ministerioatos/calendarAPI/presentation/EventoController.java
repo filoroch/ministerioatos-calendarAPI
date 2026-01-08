@@ -1,8 +1,8 @@
-package br.org.ministerioatos.calendarAPI.presentation.controller;
+package br.org.ministerioatos.calendarAPI.presentation;
 
-import br.org.ministerioatos.calendarAPI.application.input.CreateEventInput;
+import br.org.ministerioatos.calendarAPI.application.DTO.event.CreateEventInput;
 import br.org.ministerioatos.calendarAPI.application.usecase.CreateEventUseCase;
-import br.org.ministerioatos.calendarAPI.application.input.FindEventInput;
+import br.org.ministerioatos.calendarAPI.application.DTO.event.FindEventInput;
 import br.org.ministerioatos.calendarAPI.application.usecase.FindEventUseCase;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -37,9 +37,10 @@ public class EventoController {
             @ApiResponse(responseCode = "200", description = "Lista de eventos recuperada com sucesso"),
             @ApiResponse(responseCode = "500", description = "Erro interno do servidor")
     })
+
     public ResponseEntity getEvents(
             @ParameterObject FindEventInput filter,
-            @PageableDefault(size = 30, page = 0, sort = "dataHoraInicio", direction = Sort.Direction.ASC) Pageable pageable
+            @PageableDefault(size = 30, page = 0, sort = "startDateTime", direction = Sort.Direction.ASC) Pageable pageable
     ){
         /// Preciso retornar uma pagina com todos os eventos
         var output = findEvent.execute(filter, pageable);

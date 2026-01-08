@@ -1,18 +1,9 @@
-package br.org.ministerioatos.calendarAPI;
+package br.org.ministerioatos.calendarAPI.application.service;
 
-import br.org.ministerioatos.calendarAPI.domain.exceptions.evento.EventAlredyExists;
-import br.org.ministerioatos.calendarAPI.infrastructure.data.repository.EventoSpecification;
 import br.org.ministerioatos.calendarAPI.infrastructure.data.repository.IEventoRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class EventoService {

@@ -1,6 +1,5 @@
-package br.org.ministerioatos.calendarAPI.infrastructure.data.repository;
+package br.org.ministerioatos.calendarAPI.infrastructure.data.Specification;
 
-import br.org.ministerioatos.calendarAPI.domain.entity.Event;
 import br.org.ministerioatos.calendarAPI.infrastructure.data.models.EventDataJpa;
 import org.springframework.data.jpa.domain.Specification;
 

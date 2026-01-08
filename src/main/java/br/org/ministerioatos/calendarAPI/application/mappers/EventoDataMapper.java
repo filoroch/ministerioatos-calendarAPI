@@ -1,10 +1,9 @@
 package br.org.ministerioatos.calendarAPI.application.mappers;
 
-import br.org.ministerioatos.calendarAPI.application.input.CreateEventInput;
-import br.org.ministerioatos.calendarAPI.application.output.EventOutput;
+import br.org.ministerioatos.calendarAPI.application.DTO.event.CreateEventInput;
+import br.org.ministerioatos.calendarAPI.application.DTO.event.EventOutput;
 import br.org.ministerioatos.calendarAPI.domain.entity.Event;
 import br.org.ministerioatos.calendarAPI.infrastructure.data.models.EventDataJpa;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;

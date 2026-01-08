@@ -1,6 +1,8 @@
-package br.org.ministerioatos.calendarAPI.application.output;
+package br.org.ministerioatos.calendarAPI.application.DTO.event;
 
 import br.org.ministerioatos.calendarAPI.application.DTO.SubEventDTO;
+import br.org.ministerioatos.calendarAPI.application.DTO.adress.AdressOutput;
+
 import java.util.List;
 import java.util.Map;
 

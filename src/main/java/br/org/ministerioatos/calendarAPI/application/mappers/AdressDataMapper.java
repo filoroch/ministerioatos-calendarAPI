@@ -1,7 +1,7 @@
 package br.org.ministerioatos.calendarAPI.application.mappers;
 
-import br.org.ministerioatos.calendarAPI.application.input.AdressInput;
-import br.org.ministerioatos.calendarAPI.application.output.AdressOutput;
+import br.org.ministerioatos.calendarAPI.application.DTO.adress.AdressInput;
+import br.org.ministerioatos.calendarAPI.application.DTO.adress.AdressOutput;
 import br.org.ministerioatos.calendarAPI.domain.objectValue.Adress;
 import br.org.ministerioatos.calendarAPI.domain.State;
 import br.org.ministerioatos.calendarAPI.infrastructure.data.models.AdressDataJpa;
@@ -13,7 +13,7 @@ public class AdressDataMapper {
             input.number(),
             input.neighborhood(),
             input.city(),
-            State.valueOf(input.state().toLowerCase()),
+            State.valueOf(input.state().toUpperCase()),
             input.zipCode()
         );
     }

@@ -23,6 +23,7 @@ public class AdressDataJpa {
     @Column(name = "cep")
     private String zipCode;
 
+    public AdressDataJpa(){}
 
     public AdressDataJpa(
             String street,

@@ -1,4 +1,4 @@
-package br.org.ministerioatos.calendarAPI.application.input;
+package br.org.ministerioatos.calendarAPI.application.DTO.event;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.format.annotation.DateTimeFormat;
