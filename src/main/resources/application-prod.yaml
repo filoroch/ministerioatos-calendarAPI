@@ -1,26 +1,18 @@
 spring:
   application:
     name: calendarAPI
-
+    description: API para gerenciamento de calendário em ambiente de produção
   datasource:
-    # URL para banco em arquivo com auto-server para evitar locks
     url: jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
     driverClassName: org.postgresql.Driver
     username: ${DB_USER}
     password: ${DB_PASSWORD}
-
   jpa:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     hibernate:
-      ddl-auto: update # cria/atualiza tabelas automaticamente
-    show-sql: true     # mostra SQL no log (útil para debug)
+      ddl-auto: none    # executa ações de DDL automaticamente (usar 'validate' ou 'none' em produção)
+    show-sql: false     # mostra SQL no log (útil para debug)
 
-  h2:
-    console:
-      enabled: true
-      path: /h2-console # caminho padrão
-      settings:
-        web-allow-others: true # permite acesso externo se necessário
 springdoc:
   api-docs:
     path: /v3/api-docs

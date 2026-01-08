@@ -3,13 +3,12 @@ spring:
     name: calendarAPI
   datasource:
     # URL para banco em arquivo com auto-server para evitar locks
-    url: jdbc:h2:mem:calendarDb;MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    driverClassName: org.h2.Driver
-    username: postgres
-    password: postgres
-
+    url: jdbc:h2:mem:${DB_NAME};MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    driver-class-name: org.h2.Driver
   jpa:
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update  # cria/atualiza tabelas automaticamente
     show-sql: true      # mostra SQL no log (útil para debug)
