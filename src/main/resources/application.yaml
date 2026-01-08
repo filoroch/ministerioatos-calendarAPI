@@ -3,6 +3,9 @@ spring:
     name: calendarAPI
   profiles:
     active: dev
+  data:
+    web:
+      page-serialization-mode: via_dto
 springdoc:
   api-docs:
     path: /v3/api-docs
