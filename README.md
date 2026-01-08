@@ -63,6 +63,15 @@
    ```bash
     mvn spring-boot:run -Dspring-boot.run.profiles=dev
    ```
+   Ou com docker
+    ```bash
+   docker run -d -p 8081:8081 --name calendar-api \
+   -e DB_HOST=seu_host \
+   -e DB_PORT=sua_porta \
+   -e DB_NAME=seu_banco \
+   -e DB_USER=seu_usuario \
+   -e DB_PASSWORD=sua_senha \
+   ```
 5. Acesse o Scalar UI em http://localhost:8081/swagger-ui.html 
       
 > [!WARNING]
