@@ -1,4 +1,4 @@
-package br.org.ministerioatos.calendarAPI.infrastructure.config;
+package br.org.ministerioatos.calendarAPI.infrastructure.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

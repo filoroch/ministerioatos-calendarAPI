@@ -20,5 +20,7 @@ spring:
       settings:
         web-allow-others: true # permite acesso externo se necessário
 
+jwt.secret.key: ${JWT_SECRET_KEY:defaultSecretKeyForDev}
+
 server:
   port: 8081
