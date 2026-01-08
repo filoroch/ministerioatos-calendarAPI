@@ -1,8 +1,11 @@
 package br.org.ministerioatos.calendarAPI.presentation;
 
 import br.org.ministerioatos.calendarAPI.application.DTO.auth.AuthInput;
+import br.org.ministerioatos.calendarAPI.application.DTO.auth.AuthOutput;
 import br.org.ministerioatos.calendarAPI.application.DTO.auth.RegisterUserDTO;
 import br.org.ministerioatos.calendarAPI.application.service.UserDetailsServiceImpl;
+import br.org.ministerioatos.calendarAPI.infrastructure.data.models.UserDataJpa;
+import br.org.ministerioatos.calendarAPI.infrastructure.security.TokenService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -31,6 +34,9 @@ public class AuthController {
     @Autowired
     private UserDetailsServiceImpl service;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/register")
     @Operation(summary = "Registar usuarios na aplicação", description = "Registra usuarios da api por meio de login e senha. ")
     @ApiResponses(value = {
@@ -43,9 +49,15 @@ public class AuthController {
     }
 
     @PostMapping("/signin")
+    @Operation(summary = "Autenticar usuarios na aplicação", description = "Autentica usuarios da api por meio de login e senha, retornando um token JWT. ")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Usuario autenticado com sucesso"),
+            @ApiResponse(responseCode = "403", description = "Acesso não autorizado")
+    })
     public ResponseEntity signIn(@RequestBody @Valid AuthInput dto) {
         var token = new UsernamePasswordAuthenticationToken(dto.login(), dto.password());
         var authenticated = authManager.authenticate(token);
-        return ResponseEntity.ok().build();
+        var generatedToken = tokenService.generateToken((UserDataJpa) authenticated.getPrincipal());
+        return ResponseEntity.ok().body(new AuthOutput(generatedToken));
     }
 }
