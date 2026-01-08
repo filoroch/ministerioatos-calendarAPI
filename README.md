@@ -4,37 +4,32 @@
 </div>
 
 ## Estrutura do projeto
+
 ```text
-├── src
-│   ├── main
-│   │   ├── java
-│   │   │   └── br
-│   │   │       └── org
-│   │   │           └── ministerioatos
-│   │   │               └── calendarAPI
-│   │   │                   ├── application                # Camada de aplicação
-│   │   │                   │   ├── dto                    # Objetos de transferência de dados
-│   │   │                   │   │   ├── address
-│   │   │                   │   │   ├── auth
-│   │   │                   │   │   └── event
-│   │   │                   │   ├── mappers                # Mapeadores entre entidades e DTOs
-│   │   │                   │   ├── service                # Serviços e casos de uso
-│   │   │                   │   └── usecase
-│   │   │                   ├── domain                     # Camada de domínio
-│   │   │                   │   ├── entity
-│   │   │                   │   ├── exceptions
-│   │   │                   │   │   └── evento
-│   │   │                   │   └── valueobject
-│   │   │                   ├── infrastructure             # Camada de infraestrutura
-│   │   │                   │   ├── config                 # Beans e configurações
-│   │   │                   │   ├── data                   # Acesso a dados
-│   │   │                   │   │   ├── models
-│   │   │                   │   │   ├── repository
-│   │   │                   │   │   └── specification
-│   │   │                   │   ├── exception
-│   │   │                   │   └── security               # Configurações e filtros de segurança
-│   │   │                   └── presentation               # Camada de apresentação
-│   │   │                       └── controller
+└── calendarAPI
+    ├── application                # Camada de aplicação
+    │   ├── dto                    # Objetos de transferência de dados
+    │   │   ├── address
+    │   │   ├── auth
+    │   │   └── event
+    │   ├── mappers                # Mapeadores entre entidades e DTOs
+    │   ├── service                # Serviços e casos de uso
+    │   └── usecase
+    ├── domain                     # Camada de domínio
+    │   ├── entity
+    │   ├── exceptions
+    │   │   └── evento
+    │   └── valueobject
+    ├── infrastructure             # Camada de infraestrutura
+    │   ├── config                 # Beans e configurações
+    │   ├── data                   # Acesso a dados
+    │   │   ├── models
+    │   │   ├── repository
+    │   │   └── specification
+    │   ├── exception
+    │   └── security               # Configurações e filtros de segurança
+    └── presentation               # Camada de apresentação
+        └── controller
 ```
 PS C:\Users\Rebeca\repositories\calendarAPI>
 
