@@ -4,6 +4,7 @@
 </div>
 
 ## Estrutura do projeto
+```text
 ├── src
 │   ├── main
 │   │   ├── java
@@ -34,7 +35,7 @@
 │   │   │                   │   └── security               # Configurações e filtros de segurança
 │   │   │                   └── presentation               # Camada de apresentação
 │   │   │                       └── controller
-
+```
 PS C:\Users\Rebeca\repositories\calendarAPI>
 
 ## Como rodar
