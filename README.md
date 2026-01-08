@@ -3,6 +3,40 @@
     <P>Api de gerenciamento de eventos do Ministerio Atos</P>
 </div>
 
+## Estrutura do projeto
+├── src
+│   ├── main
+│   │   ├── java
+│   │   │   └── br
+│   │   │       └── org
+│   │   │           └── ministerioatos
+│   │   │               └── calendarAPI
+│   │   │                   ├── application                # Camada de aplicação
+│   │   │                   │   ├── dto                    # Objetos de transferência de dados
+│   │   │                   │   │   ├── address
+│   │   │                   │   │   ├── auth
+│   │   │                   │   │   └── event
+│   │   │                   │   ├── mappers                # Mapeadores entre entidades e DTOs
+│   │   │                   │   ├── service                # Serviços e casos de uso
+│   │   │                   │   └── usecase
+│   │   │                   ├── domain                     # Camada de domínio
+│   │   │                   │   ├── entity
+│   │   │                   │   ├── exceptions
+│   │   │                   │   │   └── evento
+│   │   │                   │   └── valueobject
+│   │   │                   ├── infrastructure             # Camada de infraestrutura
+│   │   │                   │   ├── config                 # Beans e configurações
+│   │   │                   │   ├── data                   # Acesso a dados
+│   │   │                   │   │   ├── models
+│   │   │                   │   │   ├── repository
+│   │   │                   │   │   └── specification
+│   │   │                   │   ├── exception
+│   │   │                   │   └── security               # Configurações e filtros de segurança
+│   │   │                   └── presentation               # Camada de apresentação
+│   │   │                       └── controller
+
+PS C:\Users\Rebeca\repositories\calendarAPI>
+
 ## Como rodar
 1. Fork o projeto
 2. Acesse o projeto
