@@ -6,12 +6,3 @@ spring:
   data:
     web:
       page-serialization-mode: via_dto
-springdoc:
-  api-docs:
-    path: /v3/api-docs
-  swagger-ui:
-    path: /swagger-ui
-    enabled: true
-  scalar:
-    enabled: true
-    path: /scalar
