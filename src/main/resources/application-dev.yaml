@@ -22,5 +22,15 @@ spring:
 
 jwt.secret.key: ${JWT_SECRET_KEY:defaultSecretKeyForDev}
 
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui
+    enabled: true
+  scalar:
+    enabled: true
+    path: /scalar
+
 server:
   port: 8081

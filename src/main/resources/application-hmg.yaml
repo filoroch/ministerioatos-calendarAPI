@@ -21,6 +21,9 @@ spring:
       path: /h2-console # caminho padrão
       settings:
         web-allow-others: true # permite acesso externo se necessário
+
+jwt.secret.key: ${JWT_SECRET_KEY:defaultSecretKeyForDev}
+
 springdoc:
   api-docs:
     path: /v3/api-docs
