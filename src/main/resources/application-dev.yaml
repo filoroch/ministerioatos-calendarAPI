@@ -2,25 +2,45 @@ spring:
   application:
     name: calendarAPI
   datasource:
-    # URL para banco em arquivo com auto-server para evitar locks
-    url: jdbc:h2:mem:${DB_NAME};MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
-    username: ${DB_USER}
-    password: ${DB_PASSWORD}
+    url: jdbc:h2:mem:${DB_NAME:calendardb};MODE=PostgreSQL;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    username: ${DB_USER:sa}
+    password: ${DB_PASSWORD:}
     driver-class-name: org.h2.Driver
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
-      ddl-auto: update  # cria/atualiza tabelas automaticamente
-    show-sql: true      # mostra SQL no log (útil para debug)
-
+      ddl-auto: update
+    show-sql: true
   h2:
     console:
       enabled: true
-      path: /h2-console # caminho padrão
+      path: /h2-console
       settings:
-        web-allow-others: true # permite acesso externo se necessário
+        web-allow-others: true
 
-jwt.secret.key: ${JWT_SECRET_KEY:defaultSecretKeyForDev}
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,beans,env,loggers
+        base-path: /actuator
+  endpoint:
+    health:
+      show-details: always  # Para desenvolvimento
+      show-components: always
+
+info:
+  app:
+    name: ${spring.application.name}
+    description: API for managing calendar events
+    version: 1.0.0-dev
+  company:
+    name: Ministerio Atos
+    website: https://www.ministerioatos.com
+
+jwt:
+  secret:
+    key: ${JWT_SECRET_KEY:defaultSecretKeyForDev}
 
 springdoc:
   api-docs:
@@ -28,9 +48,10 @@ springdoc:
   swagger-ui:
     path: /swagger-ui
     enabled: true
-  scalar:
-    enabled: true
-    path: /scalar
+
+scalar:
+  enabled: true
+  path: /scalar
 
 server:
   port: 8081
