@@ -8,6 +8,7 @@
 
 ![demo-gif](src/main/resources/static/demo-v1.gif)
 [Confira a demo completa aqui](https://ministerioatos-calendarapi.onrender.com/scalar)
+
 </div>
 
 ## Estrutura do projeto
