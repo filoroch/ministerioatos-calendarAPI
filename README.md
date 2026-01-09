@@ -1,12 +1,13 @@
 <div align="center">
     <h2>Ministerio Atos Calendar API</h2>
-    <P>Api de gerenciamento de eventos do Ministerio Atos</P>
+    <P>Api de gerenciamento de eventos da Igreja Assembleia de Deus Ministerio Atos.</P>
 
 ![GitHub repo size](https://img.shields.io/github/repo-size/filoroch/ministerioatos-calendarAPI?style=for-the-badge)
 ![GitHub contributors](https://img.shields.io/github/contributors/filoroch/ministerioatos-calendarAPI?style=for-the-badge)
 ![GitHub issues](https://img.shields.io/github/issues/filoroch/ministerioatos-calendarAPI?style=for-the-badge)
 
 ![demo-gif](src/main/resources/static/demo-v1.gif)
+[Confira a demo completa aqui](https://ministerioatos-calendarapi.onrender.com/scalar)
 </div>
 
 ## Estrutura do projeto
