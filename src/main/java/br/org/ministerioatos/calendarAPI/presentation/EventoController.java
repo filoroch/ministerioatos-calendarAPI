@@ -4,11 +4,14 @@ import br.org.ministerioatos.calendarAPI.application.DTO.event.CreateEventInput;
 import br.org.ministerioatos.calendarAPI.application.usecase.CreateEventUseCase;
 import br.org.ministerioatos.calendarAPI.application.DTO.event.FindEventInput;
 import br.org.ministerioatos.calendarAPI.application.usecase.FindEventUseCase;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
+
 import jakarta.validation.Valid;
+
 import org.springdoc.core.annotations.ParameterObject;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -19,7 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/evento")
-@Tag(name = "Evento", description = "Gerenciamento de eventos para visualização no frontend do calendario")
+@Tag(name = "Event", description = "Gerenciamento de eventos para visualização no frontend do calendario")
 public class EventoController {
 
     private final CreateEventUseCase createEvent;

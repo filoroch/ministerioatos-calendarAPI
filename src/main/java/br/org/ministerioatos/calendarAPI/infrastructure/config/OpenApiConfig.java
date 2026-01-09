@@ -35,12 +35,10 @@ public class OpenApiConfig {
                         .url("https://github.com/filoroch/ministerioatos-calendarAPI"))
                 .servers(List.of(
                         new Server().url("http://localhost:8081").description("Local"),
-                        new Server().url("http://localhost:8080").description("HMG")))
+                        new Server().url("https://api-develop-8oby.onrender.com").description("Demo")))
                 .tags(List.of(
-                        new Tag().name("Evento").description("Gerenciamento de eventos para visualização no frontend do calendario"),
-                        new Tag().name("Pessoas").description("Gerenciamento de pessoas com Login para administrar os eventos"),
-                        new Tag().name("Login").description("Gerenciamento das sessões de login"),
-                        new Tag().name("Departamento").description("Gerenciamento de departamentos para filtragem e organização dos eventos")))
+                        new Tag().name("Auth").description("Operações de autenticação e registro de usuários"),
+                        new Tag().name("Event").description("Gerenciamento de eventos para visualização no frontend do calendario")))
                 .addSecurityItem(new SecurityRequirement().addList(BEARER_AUTH))
                 .components(new Components().addSecuritySchemes(BEARER_AUTH,
                         new SecurityScheme()
