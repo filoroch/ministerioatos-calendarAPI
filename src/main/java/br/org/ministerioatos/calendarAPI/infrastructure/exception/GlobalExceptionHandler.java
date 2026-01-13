@@ -6,10 +6,13 @@ import br.org.ministerioatos.calendarAPI.domain.exceptions.evento.EventAlredyExi
 import org.springframework.http.ProblemDetail;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 /// Essa classe permitirá tratar exceções de forma global na aplicação.
 @RestControllerAdvice
-public class GlobalExceptionHandler {
+public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+
+    // TODO: testar se o exception handler está funcionando corretamente com o postman e o scalar
 
     @ExceptionHandler({EventAlredyExists.class, UsernameAlredyExistsException.class})
     public ProblemDetail handleConflictBusinessErrors(BusinessError ex) {

@@ -4,6 +4,7 @@ import br.org.ministerioatos.calendarAPI.infrastructure.data.models.UserDataJpa;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
@@ -14,7 +15,12 @@ import java.util.Date;
 @Service
 public class TokenService {
 
-    private static final String SECRET_KEY = System.getenv("JWT_SECRET_KEY");
+    @Value("${jwt.secret.key}")
+    private String SECRET_KEY;
+
+    public TokenService(String SECRET_KEY) {
+        this.SECRET_KEY = SECRET_KEY;
+    }
 
     public String generateToken(UserDataJpa user)
     {
@@ -28,6 +34,20 @@ public class TokenService {
 
         } catch (JWTCreationException e) {
             throw new RuntimeException("erro ao gerar o token", e);
+        }
+    }
+
+    public String verifyToken(String token)
+    {
+        try {
+            var algorithm = Algorithm.HMAC256(SECRET_KEY);
+            return JWT.require(algorithm)
+                    .withIssuer("calendarAPI")  /// Verifica se o emissor é o mesmo
+                    .build()
+                    .verify(token)
+                    .getSubject();
+        } catch (Exception e) {
+            throw new RuntimeException("Token inválido ou expirado", e);
         }
     }
 

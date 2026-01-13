@@ -45,7 +45,7 @@ public class AuthController {
     })
     public ResponseEntity register(@RequestBody @Valid RegisterUserDTO dto) throws URISyntaxException {
         var output = service.register(dto);
-        return ResponseEntity.created(new URI("/users/" + output.getUsername())).body(output);
+        return ResponseEntity.created(new URI("/users/" + output.getUsername())).body("Usuario criado com sucesso");
     }
 
     @PostMapping("/signin")

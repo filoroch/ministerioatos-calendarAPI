@@ -21,6 +21,11 @@ public class SecurityConfig {
         return http
                 .csrf(csrf -> csrf.disable()) /// Desabilita a proteção CSRF (Cross-Site Request Forgery).
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))/// Seta a política de criação de sessão como STATELESS, ou seja, sem estado.
+                .authorizeHttpRequests(auth -> {
+                    auth
+                        .requestMatchers("/auth/**").permitAll()                    /// Permite acesso livre a todas as rotas que começam com /auth/
+                        .anyRequest().authenticated();                                      /// Exige autenticação para qualquer outra requisição.
+                })
                 .build();
     }
 
